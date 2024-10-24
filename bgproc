@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # a bash loop to run things in the background
 # uses my evry tool to run commands periodically
-# https://github.com/seanbreckenridge/evry
+# https://github.com/purarue/evry
 
 declare ACTION QUIET NO_RECURSIVE PARALLEL_JOBS TEST_JOB_FILE RUNTYPE
 ACTION='loop'
@@ -167,7 +167,7 @@ while getopts 'hodqt:npjJF:' opt; do
 		printf "\t-J\tPrint paths of all job directories, then exit\n"
 		printf "Any additional arguments should be directories which contain '.job' files\n"
 		printf "If no directories are provided, searches from the current directory recursively\n"
-		printf "See https://github.com/seanbreckenridge/bgproc for more info\n"
+		printf "See https://github.com/purarue/bgproc for more info\n"
 		exit 0
 		;;
 	n)

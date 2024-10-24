@@ -2,7 +2,7 @@
 
 A `bash` loop to run tasks in the background. Used as a `anacron` alternative.
 
-This uses [`evry`](https://github.com/seanbreckenridge/evry) to schedule commands/run things periodically. `evry` saves persistent files with timestamps to the computer for each job, which means this follows `anacron`s philosophy - the computer doesn't have to be running 24 x 7. `evry` checks when tasks were last run, and if that duration has elapsed (e.g. `2 days`), it runs the task.
+This uses [`evry`](https://github.com/purarue/evry) to schedule commands/run things periodically. `evry` saves persistent files with timestamps to the computer for each job, which means this follows `anacron`s philosophy - the computer doesn't have to be running 24 x 7. `evry` checks when tasks were last run, and if that duration has elapsed (e.g. `2 days`), it runs the task.
 
 ## How?
 
@@ -47,7 +47,7 @@ Runs tasks in the background. Run without flags to start the background loop
 	-J	Print paths of all job directories, then exit
 Any additional arguments should be directories which contain '.job' files
 If no directories are provided, searches from the current directory recursively
-See https://github.com/seanbreckenridge/bgproc for more info
+See https://github.com/purarue/bgproc for more info
 ```
 
 The `-F` option does not attempt to print/schedule jobs in order, it just forks and waits for them to finish. So, outputs from the commands may overlap
@@ -56,7 +56,7 @@ To test a `.job` file before adding it to your `bgproc` directory, you can use t
 
 `EVRY_DEBUG=1 bgproc -t ./dir/something.job`
 
-See [here](https://gist.github.com/seanbreckenridge/e7ad77320c065d96f282f6d45deaa842) for example debug output.
+See [here](https://gist.github.com/purarue/e7ad77320c065d96f282f6d45deaa842) for example debug output.
 
 This offers a few ways to run the task loop once, `-o` (once), `-d` (with lots of debug information), `-F <n>` to run `<n>` jobs in parallel, or `-p`, in pretty mode, which tells you when each job will run next:
 
@@ -75,8 +75,8 @@ updaterss - 2 minutes, 45 seconds
 
 Copy the `bgproc` script onto your `$PATH` somewhere and make it executable. To automate, could use:
 
-- `sinister`: `sh <(curl -sSL http://git.io/sinister) -u 'https://raw.githubusercontent.com/seanbreckenridge/bgproc/master/bgproc'`
-- [`basher`](https://github.com/basherpm/basher): `basher install seanbreckenridge/bgproc`
+- `sinister`: `sh <(curl -sSL http://git.io/sinister) -u 'https://raw.githubusercontent.com/purarue/bgproc/master/bgproc'`
+- [`basher`](https://github.com/basherpm/basher): `basher install purarue/bgproc`
 
 ### Logs
 
@@ -89,7 +89,7 @@ Logs are very basic, just saves the timestamp and the message passed like:
 1613892693:updaterss:updated RSS feeds:0
 ```
 
-Both the [`printlog` and `send-error`](https://github.com/seanbreckenridge/bgproc/blob/2b4a2a021bd0ccf0d7ea8d2557e8c5c816e05b49/bgproc#L34-L54) functions are exported into the bash environment, so they're accessible from any bash scripts `bgproc` runs. Both of those accept one argument - the text to print. `send-error` sends a OS notification if possible, using `notify-send` on linux and `osascript` (AppleScript) on mac.
+Both the [`printlog` and `send-error`](https://github.com/purarue/bgproc/blob/2b4a2a021bd0ccf0d7ea8d2557e8c5c816e05b49/bgproc#L34-L54) functions are exported into the bash environment, so they're accessible from any bash scripts `bgproc` runs. Both of those accept one argument - the text to print. `send-error` sends a OS notification if possible, using `notify-send` on linux and `osascript` (AppleScript) on mac.
 
 For reference, my jobs often follow a structure like this:
 
@@ -128,7 +128,7 @@ echo "$(date +%s)" - "$(stat -c'%Y' ~/.cache/bgproc.lastrun)" | bc
 
 ## bgproc_on_machine
 
-I use `bgproc` on all of my machines and my phone, so `bgproc_on_machine` handles the task of figuring out which machine I'm currently on, so the correct background `.job`s can run. That uses [`on_machine`](https://github.com/seanbreckenridge/on_machine) internally, which generates a unique hash, like: `linux_arch` or `android_termux`.
+I use `bgproc` on all of my machines and my phone, so `bgproc_on_machine` handles the task of figuring out which machine I'm currently on, so the correct background `.job`s can run. That uses [`on_machine`](https://github.com/purarue/on_machine) internally, which generates a unique hash, like: `linux_arch` or `android_termux`.
 
 After setting the `$BGPROC_PATH` environment variable:
 
@@ -144,7 +144,7 @@ $ bgproc_on_machine -o
 1655993990:/home/sean/Repos/HPI-personal/jobs/linux
 ```
 
-You can see examples of those directory structures [in my dotfiles](https://github.com/seanbreckenridge/dotfiles/tree/master/.local/scripts/supervisor_jobs) and [in my personal HPI repo](https://github.com/seanbreckenridge/HPI-personal/tree/master/jobs):
+You can see examples of those directory structures [in my dotfiles](https://github.com/purarue/dotfiles/tree/master/.local/scripts/supervisor_jobs) and [in my personal HPI repo](https://github.com/purarue/HPI-personal/tree/master/jobs):
 
 ```
 jobs
@@ -178,9 +178,9 @@ jobs
 
 This doesn't ship way to run this automatically for each operating system. Could potentially use a `systemd` service (on linux flavors that have that) or an [Automator script](https://stackoverflow.com/questions/6442364/running-script-upon-login-mac) on macOS.
 
-Personally, I run this with [`supervisor`](https://github.com/Supervisor/supervisor) (since it being cross platform means my background processes are cross platform as well) at the beginning of my X session on linux, and, otherwise [checking if the pid file exists when I open a terminal](https://github.com/seanbreckenridge/dotfiles/blob/master/.local/scripts/README.md#supervisor)
+Personally, I run this with [`supervisor`](https://github.com/Supervisor/supervisor) (since it being cross platform means my background processes are cross platform as well) at the beginning of my X session on linux, and, otherwise [checking if the pid file exists when I open a terminal](https://github.com/purarue/dotfiles/blob/master/.local/scripts/README.md#supervisor)
 
-On `android` where handling background tasks is a bit more complicated, instead of using supervisor to run `bgproc` in the background, I use the `-F` flag to run the loop once [when I open my terminal](https://github.com/seanbreckenridge/dotfiles/blob/master/.config/zsh/android.zsh). In my shell profile for `termux`, I have:
+On `android` where handling background tasks is a bit more complicated, instead of using supervisor to run `bgproc` in the background, I use the `-F` flag to run the loop once [when I open my terminal](https://github.com/purarue/dotfiles/blob/master/.config/zsh/android.zsh). In my shell profile for `termux`, I have:
 
 `evry 1 hour -run_android_jobs && bgproc_on_machine -onqF 4`
 

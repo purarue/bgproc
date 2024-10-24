@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # A helper script which uses on_machine to figure out which
 # directories to include in my bgproc directories
-# https://github.com/seanbreckenridge/on_machine
+# https://github.com/purarue/on_machine
 #
 # if ON_MACHINE_PATTERN is set, on_machine uses that instead of the
 # default '%o/%d/%h' to search for directories
-# see: https://github.com/seanbreckenridge/on_machine#match
+# see: https://github.com/purarue/on_machine#match
 
 havecmd() {
 	local BINARY ERRMSG
@@ -22,7 +22,7 @@ havecmd() {
 
 set -e
 havecmd bgproc
-havecmd on_machine 'See https://github.com/seanbreckenridge/on_machine'
+havecmd on_machine 'See https://github.com/purarue/on_machine'
 
 declare -a BASE_DIRS
 declare -a OS_DIRS
