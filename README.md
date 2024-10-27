@@ -136,12 +136,12 @@ After setting the `$BGPROC_PATH` environment variable:
 $ export BGPROC_PATH="${HPIDATA}/jobs:${HOME}/.local/scripts/supervisor_jobs:${REPOS}/HPI-personal/jobs"
 $ bgproc_on_machine -o
 1655993990:Searching for jobs in:
-1655993990:/home/sean/data/jobs/all
-1655993990:/home/sean/data/jobs/linux
-1655993990:/home/sean/.local/scripts/supervisor_jobs/all
-1655993990:/home/sean/.local/scripts/supervisor_jobs/linux
-1655993990:/home/sean/Repos/HPI-personal/jobs/all
-1655993990:/home/sean/Repos/HPI-personal/jobs/linux
+1655993990:/home/user/data/jobs/all
+1655993990:/home/user/data/jobs/linux
+1655993990:/home/user/.local/scripts/supervisor_jobs/all
+1655993990:/home/user/.local/scripts/supervisor_jobs/linux
+1655993990:/home/user/Repos/HPI-personal/jobs/all
+1655993990:/home/user/Repos/HPI-personal/jobs/linux
 ```
 
 You can see examples of those directory structures [in my dotfiles](https://github.com/purarue/dotfiles/tree/master/.local/scripts/supervisor_jobs) and [in my personal HPI repo](https://github.com/purarue/HPI-personal/tree/master/jobs):
