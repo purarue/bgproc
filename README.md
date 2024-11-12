@@ -73,10 +73,11 @@ updaterss - 2 minutes, 45 seconds
 
 ### Install
 
-Copy the `bgproc` script onto your `$PATH` somewhere and make it executable. To automate, could use:
+Copy the `bgproc` script onto your `$PATH` somewhere and make it executable. To automate that, you could use [`basher`](https://github.com/basherpm/basher):
 
-- `sinister`: `sh <(curl -sSL http://git.io/sinister) -u 'https://raw.githubusercontent.com/purarue/bgproc/master/bgproc'`
-- [`basher`](https://github.com/basherpm/basher): `basher install purarue/bgproc`
+```
+basher install purarue/bgproc
+```
 
 ### Logs
 
